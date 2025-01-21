@@ -7,4 +7,12 @@ The root cause for the thrown exception is in line 279. Within the if statement 
 #### Checklist
 - state the line or the function where the root cause is
 - don't use specific numbers from the given exception (like minutesOffset was -15)
-- ...
+- reference documentation, if information is available
+- short and precise language
+
+#### Procedure
+- look at excel file from Chris' repository
+- filter for bug reports for HIT01_08
+- filter for explanations containg the root cause
+- look at failure and test description from the second excel file
+- no look at the .java file
