@@ -1,0 +1,16 @@
+HIT file,Original File,Method,Failure description,Test description
+HIT01_8,8_DateTimeZone.java,forOffsetHoursMinutes,java.lang.IllegalArgumentException: Minutes out of range: -15,"assertEquals(DateTimeZone.forID(""-02:15""), DateTimeZone.forOffsetHoursMinutes(-2, -15));"
+HIT02_24,24_GrayPaintScale.java,getPaint, java.lang.IllegalArgumentException: Color parameter outside of expected range: Red Green Blue,"GrayPaintScale gps = new GrayPaintScale();
+c = (Color) gps.getPaint(-0.5);
+assertTrue(c.equals(Color.black));"
+HIT03_6,6_CharSequenceTranslator.java,translate, java.lang.StringIndexOutOfBoundsException: String index out of range: 2 ,"assertEquals(""\uD83D\uDE30"", StringEscapeUtils.escapeCsv(""\uD83D\uDE30""));"
+HIT04_7,7_TimePeriodValues.java,updateBounds,junit.framework.AssertionFailedError: expected:<1> but was:<3>,"TimePeriodValues s = new TimePeriodValues(""Test"");
+s.add(new SimpleTimePeriod(0L, 50L), 3.0);
+assertEquals(1, s.getMaxMiddleIndex());"
+HIT05_35,35_ArrayUtils.java,add,"java.lang.ClassCastException: [Ljava.lang.Object; cannot be cast to [Ljav
+a.lang.String;","String[] sa = ArrayUtils.add(stringArray, aString);
+          fail(""Should have caused IllegalArgumentException"");"
+HIT06_51,51_CodeConsumer.java,addNumber, junit.framework.ComparisonFailure: expected:<var x=[-0.]0> but was:<var x=[]0>," assertPrint(""var x = -0.0;"", ""var x=-0.0"");"
+HIT07_33,33_ClassUtils.java,toClass,java.lang.NullPointerException,"assertTrue(Arrays.equals(new Class[] { String.class, null, Double.class },
+                ClassUtils.toClass(new Object[] { ""Test"", null, 99d })));"
+HIT08_54,54_LocaleUtils.java,toLocale, java.lang.IllegalArgumentException: Invalid locale format: fr__POSIX,"assertValidToLocale(""fr__POSIX"", ""fr"", """", ""POSIX"");"
