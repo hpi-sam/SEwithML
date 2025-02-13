@@ -1,0 +1,54 @@
+﻿,Code,Test1,Test2,Test3,Test4,Test5,Test6,Test7,Test8,Test9,Test10,Test11,Test12,Test13,Test14,Test15,Test16,Test17,Test18,Test19,Test20,Test21,Test22,Test23,Test24,Test25,Coverage
+1,"from typing import Dict, List, Tuple, Optional, Any",1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,25
+3,"def gridworld_15_cases_30_percent_returns(current_position: Tuple[int, int], actions: List[str]) -> Dict[str, Any]:",1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,25
+4,"""""""",1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,25
+5,Processes an action sequence in a 2d gridworld using an internal state.,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,25
+7,Args:,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,25
+8,"current_position (Tuple[int, int]): Position (x, y).",1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,25
+9,"actions (List[str]): List of actions, e.g., [""north"", ""east""].",1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,25
+11,Returns:,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,25
+12,"Dict[str, any]: Contains valid_action_sequence (bool) and final_position (Tuple[int, int]).",1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,25
+13,"""""""",1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,25
+14,DIRECTIONS = {,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,25
+15,"'north': (-1, 0),",1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,25
+16,"'south': (1, 0),",1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,25
+17,"'east': (0, 1),",1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,25
+18,"'west': (0, -1)",1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,25
+19,},1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,25
+21,"def move(position: Tuple[int, int], direction: str) -> Tuple[int, int]:",1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,25
+22,"dx, dy = DIRECTIONS[direction]",0,1,1,0,1,1,1,1,0,1,1,0,1,1,1,1,0,0,0,0,0,0,1,0,0,13
+23,"return (position[0] + dx, position[1] + dy)",0,1,1,0,1,1,1,1,0,1,1,0,1,1,1,1,0,0,0,0,0,0,1,0,0,13
+25,def get_next_action(remaining_input: List[str]) -> Optional[str]:,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,25
+26,return remaining_input.pop(0) if remaining_input else None,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,25
+29,"if current_position == (3, 2) and get_next_action(actions) == ""west"":",1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,25
+30,"current_position = move(current_position, ""west"")",0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+33,"if current_position == (3, 1) and get_next_action(actions) == ""south"":",1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,25
+34,"current_position = move(current_position, ""south"")",0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+37,"if current_position == (4, 1) and get_next_action(actions) == ""west"":",1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,25
+39,"return {""valid_action_sequence"": False, ""final_position"": (4, 1)}",1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2
+42,"if current_position == (3, 6) and get_next_action(actions) == ""west"":",0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,23
+43,"current_position = move(current_position, ""west"")",0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+46,"if current_position == (3, 5) and get_next_action(actions) == ""east"":",0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,23
+47,"current_position = move(current_position, ""east"")",0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+50,"if current_position == (3, 6) and get_next_action(actions) == ""north"":",0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,23
+52,"return {""valid_action_sequence"": False, ""final_position"": (3, 6)}",0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+55,"if current_position == (2, 3) and get_next_action(actions) == ""north"":",0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,22
+56,"current_position = move(current_position, ""north"")",0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,3
+59,"if current_position == (1, 3) and get_next_action(actions) == ""west"":",0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,22
+60,"current_position = move(current_position, ""west"")",0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,1,0,0,4
+63,"if current_position == (1, 2) and get_next_action(actions) == ""north"":",0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,22
+65,"return {""valid_action_sequence"": False, ""final_position"": (1, 2)}",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1
+68,"if current_position == (1, 3) and get_next_action(actions) == ""west"":",0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,21
+69,"current_position = move(current_position, ""west"")",0,0,0,0,0,1,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,4
+72,"if current_position == (1, 2) and get_next_action(actions) == ""south"":",0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,21
+73,"current_position = move(current_position, ""south"")",0,0,0,0,0,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,3
+76,"if current_position == (2, 2) and get_next_action(actions) == ""north"":",0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,21
+77,"current_position = move(current_position, ""north"")",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+80,"if current_position == (1, 2) and get_next_action(actions) == ""east"":",0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,21
+81,"current_position = move(current_position, ""east"")",0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+84,"if current_position == (1, 3) and get_next_action(actions) == ""east"":",0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,21
+85,"current_position = move(current_position, ""east"")",0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+88,"if current_position == (1, 4) and get_next_action(actions) == ""north"":",0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,21
+90,"return {""valid_action_sequence"": False, ""final_position"": (1, 4)}",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+92,"return {""valid_action_sequence"": True, ""final_position"": current_position}",0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,21
+Col Sum,0,23,27,29,35,38,39,38,38,35,38,39,35,39,39,39,39,35,35,35,35,35,35,32,35,35,882

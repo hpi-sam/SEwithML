@@ -1,0 +1,13 @@
+*api_key*
+__pycache__
+logs/
+runs/
+*env*
+*DS_STORE*
+generated_functions/
+
+metrics/test_regeneration/
+src/enhanced-reg_met.py 
+src/regeneration_metrics.py
+src/utils/metrics_original.py
+src/utils/test_regeneration.py

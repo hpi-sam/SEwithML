@@ -1,0 +1,6 @@
+Parameters for all runs:
+- maximum test improvements: 2
+- similar tests to compare: 20
+- maximum tests to generate: 25
+- temperature: 0.3
+- top_p: 0.95

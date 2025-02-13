@@ -1,0 +1,11 @@
+timestamp,run_id,event,coverage,coverage_lines,test_case_name,test_covered_lines,is_full_coverage,function_complexity,total_unique_lines,unique_lines_covered_deleted_test,ranking_info
+2025-01-27T23:08:31.140273,20250127_230822_vamb,generated_test_auto,0.2500,3,AutoTest_1,3,False,11.0,12,0,
+2025-01-27T23:08:37.744357,20250127_230822_vamb,generated_test_auto,0.6667,8,AutoTest_2,5,False,11.0,12,0,
+2025-01-27T23:08:45.550350,20250127_230822_vamb,generated_test_auto,0.8333,10,AutoTest_3,2,False,11.0,12,0,
+2025-01-27T23:08:53.749927,20250127_230822_vamb,generated_test_auto,1.0000,12,AutoTest_4,2,True,11.0,12,0,
+2025-01-27T23:09:39.274837,20250127_230822_vamb,deleted_test,1.0000,12,(user_deleted_test),0,True,11.0,12,0,max
+2025-01-27T23:10:14.569535,20250127_230822_vamb,run_tests,1.0000,12,(run_tests_button),0,True,11.0,12,0,
+2025-01-27T23:10:37.585375,20250127_230822_vamb,deleted_test,0.9167,10,NewTest_231037,2,False,11.0,12,0,med
+2025-01-27T23:10:48.492217,20250127_230822_vamb,accept_test,1.0000,12,(accepted_test),0,True,11.0,12,0,
+2025-01-27T23:11:52.927610,20250127_230822_vamb,deleted_test,1.0000,12,(user_deleted_test),0,True,11.0,12,0,min
+2025-01-27T23:12:00.075246,20250127_230822_vamb,run_tests,1.0000,12,(run_tests_button),0,True,11.0,12,0,

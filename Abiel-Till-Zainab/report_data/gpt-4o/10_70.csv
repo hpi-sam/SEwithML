@@ -1,0 +1,44 @@
+﻿,Code,Test1,Test2,Test3,Test4,Test5,Test6,Test7,Test8,Test9,Test10,Test11,Test12,Test13,Test14,Test15,Test16,Test17,Coverage
+1,"from typing import Dict, List, Tuple, Optional, Any",1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,17
+3,"def gridworld_10_cases_70_percent_returns(current_position: Tuple[int, int], actions: List[str]) -> Dict[str, Any]:",1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,17
+4,"""""""",1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,17
+5,Processes an action sequence in a 2d gridworld using an internal state.,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,17
+7,Args:,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,17
+8,"current_position (Tuple[int, int]): Position (x, y).",1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,17
+9,"actions (List[str]): List of actions, e.g., [""north"", ""east""].",1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,17
+11,Returns:,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,17
+12,"Dict[str, any]: Contains valid_action_sequence (bool) and final_position (Tuple[int, int]).",1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,17
+13,"""""""",1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,17
+14,DIRECTIONS = {,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,17
+15,"'north': (-1, 0),",1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,17
+16,"'south': (1, 0),",1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,17
+17,"'east': (0, 1),",1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,17
+18,"'west': (0, -1)",1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,17
+19,},1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,17
+21,"def move(position: Tuple[int, int], direction: str) -> Tuple[int, int]:",1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,17
+22,"dx, dy = DIRECTIONS[direction]",0,1,0,0,0,1,1,0,1,0,0,0,0,0,0,0,0,4
+23,"return (position[0] + dx, position[1] + dy)",0,1,0,0,0,1,1,0,1,0,0,0,0,0,0,0,0,4
+25,def get_next_action(remaining_input: List[str]) -> Optional[str]:,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,17
+26,return remaining_input.pop(0) if remaining_input else None,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,17
+29,"if current_position == (6, 4) and get_next_action(actions) == ""north"":",1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,17
+31,"return {""valid_action_sequence"": False, ""final_position"": (6, 4)}",0,0,1,0,0,0,0,0,0,1,1,0,0,0,0,0,1,4
+34,"if current_position == (1, 6) and get_next_action(actions) == ""east"":",1,1,0,1,1,1,1,1,1,0,0,1,1,1,1,1,0,13
+36,"return {""valid_action_sequence"": False, ""final_position"": (1, 6)}",0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+39,"if current_position == (6, 4) and get_next_action(actions) == ""north"":",1,1,0,0,1,1,1,1,1,0,0,1,1,1,1,1,0,12
+41,"return {""valid_action_sequence"": False, ""final_position"": (6, 4)}",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+44,"if current_position == (6, 6) and get_next_action(actions) == ""south"":",1,1,0,0,1,1,1,1,1,0,0,1,1,1,1,1,0,12
+46,"return {""valid_action_sequence"": False, ""final_position"": (6, 6)}",1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+49,"if current_position == (4, 6) and get_next_action(actions) == ""south"":",0,1,0,0,1,1,1,1,1,0,0,1,1,1,1,1,0,11
+51,"return {""valid_action_sequence"": False, ""final_position"": (4, 6)}",0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1
+54,"if current_position == (4, 1) and get_next_action(actions) == ""east"":",0,1,0,0,1,1,1,0,1,0,0,1,1,1,1,1,0,10
+56,"return {""valid_action_sequence"": False, ""final_position"": (4, 1)}",0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1
+59,"if current_position == (6, 2) and get_next_action(actions) == ""east"":",0,1,0,0,1,1,1,0,1,0,0,0,1,1,1,1,0,9
+60,"current_position = move(current_position, ""east"")",0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,2
+63,"if current_position == (6, 3) and get_next_action(actions) == ""north"":",0,1,0,0,1,1,1,0,1,0,0,0,1,1,1,1,0,9
+64,"current_position = move(current_position, ""north"")",0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,2
+67,"if current_position == (5, 3) and get_next_action(actions) == ""north"":",0,1,0,0,1,1,1,0,1,0,0,0,1,1,1,1,0,9
+68,"current_position = move(current_position, ""north"")",0,0,0,0,0,1,1,0,1,0,0,0,0,0,0,0,0,3
+71,"if current_position == (4, 3) and get_next_action(actions) == ""west"":",0,1,0,0,1,1,1,0,1,0,0,0,1,1,1,1,0,9
+73,"return {""valid_action_sequence"": False, ""final_position"": (4, 3)}",0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1
+75,"return {""valid_action_sequence"": True, ""final_position"": current_position}",0,1,0,0,0,1,1,0,1,0,0,0,1,1,1,1,0,8
+Col Sum,0,24,33,21,22,30,33,34,25,35,21,21,26,30,30,30,30,21,466

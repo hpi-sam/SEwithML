@@ -1,0 +1,11 @@
+timestamp,run_id,event,coverage,coverage_lines,test_case_name,test_covered_lines,is_full_coverage,function_complexity,total_unique_lines,unique_lines_covered_deleted_test,ranking_info
+2025-01-27T23:00:20.054999,20250127_230011_bwma,generated_test_auto,0.1667,2,AutoTest_1,2,False,10.0,12,0,
+2025-01-27T23:00:28.378761,20250127_230011_bwma,generated_test_auto,0.2500,3,AutoTest_2,1,False,10.0,12,0,
+2025-01-27T23:00:39.325683,20250127_230011_bwma,generated_test_auto,0.9167,11,AutoTest_3,8,False,10.0,12,0,
+2025-01-27T23:00:49.367523,20250127_230011_bwma,generated_test_auto,1.0000,12,AutoTest_4,1,True,10.0,12,0,
+2025-01-27T23:03:04.092834,20250127_230011_bwma,deleted_test,1.0000,12,(user_deleted_test),0,True,10.0,12,0,max
+2025-01-27T23:03:55.767481,20250127_230011_bwma,run_tests,1.0000,12,(run_tests_button),0,True,10.0,12,0,
+2025-01-27T23:03:04.092834,20250127_230011_bwma,deleted_test,1.0000,12,(user_deleted_test),0,True,10.0,12,0,med
+2025-01-27T23:04:24.677066,20250127_230011_bwma,generated_test,1.0000,12,NewTest_230424,9,True,10.0,12,0,
+2025-01-27T23:06:55.814665,20250127_230011_bwma,deleted_test,0.5000,6,NewTest_230655,3,False,10.0,12,0,min
+2025-01-27T23:06:59.715405,20250127_230011_bwma,accept_test,1.0000,12,(accepted_test),0,True,10.0,12,0,

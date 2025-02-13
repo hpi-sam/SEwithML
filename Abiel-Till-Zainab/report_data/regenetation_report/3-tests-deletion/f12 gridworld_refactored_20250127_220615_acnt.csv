@@ -1,0 +1,16 @@
+timestamp,run_id,event,coverage,coverage_lines,test_case_name,test_covered_lines,is_full_coverage,function_complexity,total_unique_lines,unique_lines_covered_deleted_test,ranking_info
+2025-01-27T22:06:24.766028,20250127_220615_acnt,generated_test_auto,0.3077,4,AutoTest_1,4,False,7.0,13,0,
+2025-01-27T22:06:34.328371,20250127_220615_acnt,generated_test_auto,0.4615,6,AutoTest_2,2,False,7.0,13,0,
+2025-01-27T22:06:44.455114,20250127_220615_acnt,generated_test_auto,0.6154,8,AutoTest_3,2,False,7.0,13,0,
+2025-01-27T22:06:52.061682,20250127_220615_acnt,generated_test_auto,0.7692,10,AutoTest_4,2,False,7.0,13,0,
+2025-01-27T22:07:00.834329,20250127_220615_acnt,generated_test_auto,0.9231,12,AutoTest_5,2,False,7.0,13,0,
+2025-01-27T22:07:13.671628,20250127_220615_acnt,generated_test_auto,1.0000,13,AutoTest_6,1,True,7.0,13,0,
+2025-01-27T22:08:34.845765,20250127_220615_acnt,deleted_test,0.9231,12,(user_deleted_test),0,False,7.0,13,0,max
+2025-01-27T22:08:47.430166,20250127_220615_acnt,generated_test,0.9231,12,NewTest_220847,1,False,7.0,13,0,
+2025-01-27T22:08:49.606350,20250127_220615_acnt,accept_test,1.0000,13,(accepted_test),0,True,7.0,13,0,
+2025-01-27T22:09:01.761680,20250127_220615_acnt,deleted_test,0.9231,12,(user_deleted_test),0,False,7.0,13,0,med
+2025-01-27T22:09:14.567438,20250127_220615_acnt,generated_test,0.9231,12,NewTest_220914,1,False,7.0,13,0,
+2025-01-27T22:09:21.468589,20250127_220615_acnt,accept_test,1.0000,13,(accepted_test),0,True,7.0,13,0,
+2025-01-27T22:09:40.025831,20250127_220615_acnt,deleted_test,0.9231,12,(user_deleted_test),0,False,7.0,13,0,min
+2025-01-27T22:09:53.609134,20250127_220615_acnt,generated_test,0.9231,12,NewTest_220953,1,False,7.0,13,0,
+2025-01-27T22:09:56.371040,20250127_220615_acnt,accept_test,1.0000,13,(accepted_test),0,True,7.0,13,0,

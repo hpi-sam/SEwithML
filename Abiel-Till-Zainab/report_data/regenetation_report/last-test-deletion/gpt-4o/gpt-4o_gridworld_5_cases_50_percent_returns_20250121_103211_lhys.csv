@@ -1,0 +1,11 @@
+timestamp,run_id,event,coverage,coverage_lines,test_case_name,test_covered_lines,is_full_coverage,function_complexity,total_unique_lines
+2025-01-21T10:32:24.064446,20250121_103211_lhys,generated_test,0.0000,0,NewTest_103224,0,False,11.0,32
+2025-01-21T10:32:39.785050,20250121_103211_lhys,generated_test,0.0000,0,NewTest_103239,0,False,11.0,32
+2025-01-21T10:32:41.347025,20250121_103211_lhys,accept_test,0.8750,28,(accepted_test),0,False,11.0,32
+2025-01-21T10:32:54.143914,20250121_103211_lhys,generated_test,0.8750,28,NewTest_103254,28,False,11.0,32
+2025-01-21T10:32:55.714006,20250121_103211_lhys,accept_test,0.9062,29,(accepted_test),0,False,11.0,32
+2025-01-21T10:33:10.790404,20250121_103211_lhys,generated_test,0.9062,29,NewTest_103310,22,False,11.0,32
+2025-01-21T10:33:13.168421,20250121_103211_lhys,accept_test,1.0000,32,(accepted_test),0,True,11.0,32
+2025-01-21T10:34:01.007369,20250121_103211_lhys,deleted_test,0.9375,30,(user_deleted_test),30,False,11.0,32
+2025-01-21T10:34:29.349704,20250121_103211_lhys,generated_test,0.9375,29,NewTest_103429,29,False,11.0,32
+2025-01-21T10:34:37.173901,20250121_103211_lhys,accept_test,1.0000,32,(accepted_test),32,True,11.0,32

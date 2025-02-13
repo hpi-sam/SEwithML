@@ -1,0 +1,6 @@
+{
+  "model_choice": "gpt-4o-mini",
+  "max_improvements": 2,
+  "similarity_comparison_count": 10,
+  "max_tests": 25
+}

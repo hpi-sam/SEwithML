@@ -1,0 +1,9 @@
+timestamp,run_id,event,coverage,coverage_lines,test_case_name,test_covered_lines,is_full_coverage,function_complexity,total_unique_lines
+2025-01-21T10:30:09.371731,20250121_102956_gxkr,generated_test,0.0000,0,NewTest_103009,0,False,11.0,32
+2025-01-21T10:30:40.963657,20250121_102956_gxkr,generated_test,0.0000,27,NewTest_103040,0,False,11.0,32
+2025-01-21T10:30:42.811890,20250121_102956_gxkr,accept_test,0.8750,27,(accepted_test),0,False,11.0,32
+2025-01-21T10:30:56.036997,20250121_102956_gxkr,generated_test,0.8750,27,NewTest_103056,28,False,11.0,32
+2025-01-21T10:30:57.893202,20250121_102956_gxkr,accept_test,1.0000,32,(accepted_test),0,True,11.0,32
+2025-01-21T10:31:09.992031,20250121_102956_gxkr,deleted_test,0.9375,28,(user_deleted_test),28,False,11.0,32
+2025-01-21T10:31:26.587871,20250121_102956_gxkr,generated_test,0.9375,28,NewTest_103126,30,False,11.0,32
+2025-01-21T10:31:28.920036,20250121_102956_gxkr,accept_test,1.0000,32,(accepted_test),0,True,11.0,32
