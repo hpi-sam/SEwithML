@@ -18,8 +18,8 @@ An agentic tool for generating high-quality unit tests for Python code.
 
 ```bash
 # Clone the repository
-git clone https://github.com/till2/SEwithMLplayground.git
-cd SEwithMLplayground
+git clone https://github.com/hpi-sam/SEwithML.git
+cd Abiel-Till-Zainab
 
 # Create and activate a virtual environment (optional but recommended)
 python -m venv test_generator
