@@ -1,4 +1,4 @@
-"hit","original_file","method","failure_description","test_description","gold_standard"
+"bug","original_file","method","failure_description","test_description","description"
 "HIT01_8","8_DateTimeZone.java","forOffsetHoursMinutes","java.lang.IllegalArgumentException: Minutes out of range: -15","assertEquals(DateTimeZone.forID(""-02:15""), DateTimeZone.forOffsetHoursMinutes(-2, -15));","The specification states, that the method ""DateTimeZone()"" accepts a minutes offset value in the range of -59 to 59 inlcusive. The method checks if this value, stored as ""minutesOffset"", is within these bounds on line 279, but incorrectly throws an ""IllegalArgumentException"" for any minutes offset less than zero instead of less than -59."
 "HIT02_24","24_GrayPaintScale.java","getPaint"," java.lang.IllegalArgumentException: Color parameter outside of expected range: Red Green Blue","GrayPaintScale gps = new GrayPaintScale();
 c = (Color) gps.getPaint(-0.5);

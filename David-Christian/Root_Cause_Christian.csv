@@ -1,4 +1,4 @@
-"bug"," description"
+"bug","description"
 "HIT01_08","The root cause for the thrown exception is in line 279. Within the if statement the program checks is the value of the variable ""minutesOffset"" is less than zero or greater than 59. The documentation states, that the value of the variable can also be negative in some cases. In a case with a negative ""minutesOffset"" value, the program throws the relevant exception."
 "HIT02_24","The root cause for the thrown exception is in line 119. The function ""Color"" does not accept negative numbers as input values, but a negative number can be passed to the function. Therefore, the IllegalArgumentException occurs."
 "HIT03_6","The root cause for the thrown exception is in the while loop between lines 84 and 97. In line 87 the invocation ""Character.codePointAt"" gets the variable ""pos"" as input. The ""pos"" variable gets incremented in the while loop twice (in line 89 and 95) constantly. Therefore, it could get incremented beyond the ""len"" variable. In that case, the StringIndexOutOfBoundsException occurs."

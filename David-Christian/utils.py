@@ -4,6 +4,7 @@ from nltk.translate.bleu_score import sentence_bleu, SmoothingFunction
 # from readability import Readability
 # from readability.scorers import FleschKincaid
 import textstat
+from sklearn.feature_extraction.text import TfidfVectorizer
 from bleurt import score
 
 
@@ -39,8 +40,19 @@ class MetricHelper:
         return textstat.flesch_kincaid_grade(candidate)
 
     @staticmethod
+    def calculateReadability(text) -> float:
+        return textstat.flesch_reading_ease(text)
+
+    @staticmethod
     def calculateBleurtScore(reference, candidate, checkpoint="BLEURT-20") -> list:
         scorer = score.LengthBatchingBleurtScorer(checkpoint)
         bleurt_scores = scorer.score(references=reference, candidates=candidate)
-        assert isinstance(bleurt_scores, list) and len(bleurt_scores) == 1
+        assert isinstance(bleurt_scores, list)
         return bleurt_scores
+
+    @staticmethod
+    def calculateCosineSimilarity(documents):
+        vect = TfidfVectorizer(min_df=1, stop_words='english')
+        tfidf = vect.fit_transform(documents)
+        pairwise_similarity = tfidf * tfidf.T
+        return pairwise_similarity.toarray()
