@@ -1,8 +1,6 @@
 import re
 from rouge_metric import PyRouge
 from nltk.translate.bleu_score import sentence_bleu, SmoothingFunction
-# from readability import Readability
-# from readability.scorers import FleschKincaid
 import textstat
 from sklearn.feature_extraction.text import TfidfVectorizer
 from bleurt import score
@@ -11,6 +9,7 @@ import json
 import pandas as pd
 import datetime
 import os
+import tqdm
 
 
 class MetricHelper:
@@ -26,8 +25,8 @@ class MetricHelper:
 
     @staticmethod
     def calculateBleuScore(reference, candidate) -> float:
-        ref = re.sub('\W+', ' ', reference).split(' ')
-        can = re.sub('\W+', ' ', candidate).split(' ')
+        ref = re.sub(r'\W+', ' ', reference).split(' ')
+        can = re.sub(r'\W+', ' ', candidate).split(' ')
         bleu_score = sentence_bleu([can], ref, smoothing_function=SmoothingFunction().method1)
         return bleu_score
 
@@ -65,9 +64,22 @@ class MetricHelper:
 
 class InferenceHelper:
 
-    
+    ####
+    #
+    #   Provides some optional parameters to tune how ollama runs the models.
+    #   NOTE: some models require specific parameters to run at all, or at least run somewhat efficiently.
+    #       context_limit (num_ctx) - token limit for input
+    #       predict_limit (num_predict) - token limit for prediction
+    #       gpu_layers (num_gpu) - number of layers offloaded to gpu
+    #
+    #   MODELS:
+    #       deepseek-coder-v2:16b
+    #           context_limit: 24576
+    #           predict_limit: 8192
+    #           gpu_layers: 20 (optional)
+    #
     @staticmethod
-    def runInference(prompt, model='deepseek-llm:7b'):
+    def runInference(prompt, model='deepseek-llm:7b', context_limit=None, predict_limit=None, gpu_layers=None):
         url = "http://localhost:11434/api/generate"
         headers = {
             "Content-Type": "application/json"
@@ -91,15 +103,24 @@ class InferenceHelper:
             "stream": False,
             "format": schema
         }
+        if context_limit:
+            options = data_json.setdefault("options", {})
+            options["num_ctx"] = context_limit
+        if predict_limit:
+            options = data_json.setdefault("options", {})
+            options["num_predict"] = predict_limit
+        if gpu_layers:
+            options = data_json.setdefault("options", {})
+            options["num_gpu"] = gpu_layers
 
         response = requests.post(url, headers=headers, data=json.dumps(data_json))
         try:
             r = json.loads(response.text)['response']
             return r
-        except:
+        except Exception:
             print(response.text)
             return response.text
-    
+
     @staticmethod
     def generatePrompt(explanations, method, mode, df, ref_df):
         prompt_input = PromptHelper.prompt_input_default
@@ -107,38 +128,80 @@ class InferenceHelper:
         if mode == 'default':
             prompt_task = PromptHelper.prompt_task_professional
         if mode == 'source':
-            prompt_task = PromptHelper.prompt_task_source + PromptHelper.prompt_context_source + PromptHelper.load_source_files()[method]
+            prompt_task = (
+                PromptHelper.prompt_task_source
+                + PromptHelper.prompt_context_source
+                + PromptHelper.load_source_files()[method]
+            )
         if mode == 'error':
             test, error = PromptHelper.get_test_error(method, ref_df)
             prompt_task = PromptHelper.prompt_task_test + PromptHelper.prompt_context_test + test + error
         if mode == 'oneshot':
             expl, c, d = PromptHelper.get_examples(method, df, ref_df)
-            prompt_task = PromptHelper.prompt_task_professional + PromptHelper.prompt_task_oneshot_in + expl + PromptHelper.prompt_task_oneshot_out_one + c + PromptHelper.prompt_task_oneshot_out_two + d
+            prompt_task = (
+                PromptHelper.prompt_task_professional
+                + PromptHelper.prompt_task_oneshot_in
+                + expl + PromptHelper.prompt_task_oneshot_out_one
+                + c
+                + PromptHelper.prompt_task_oneshot_out_two
+                + d
+            )
         input = '\n\n' + '\n\n'.join(["'''\n" + expl + "\n'''" for expl in explanations]) + '\n\n'
         prompt = prompt_task + prompt_input + input + prompt_output
         return prompt
-    
+
+    ####
+    #
+    #   Generates a pandas dataframe containing generated explanations for all methods in the dataframe provided.
+    #   We assume the provided dataframe fits the one generated from the unit tests failure descriptions we work on.
+    #
+    #   Provides some optional parameters to tune how ollama runs the models.
+    #   NOTE: some models require specific parameters to run at all, or at least run somewhat efficiently.
+    #       context_limit (num_ctx) - token limit for input
+    #       predict_limit (num_predict) - token limit for prediction
+    #       gpu_layers (num_gpu) - number of layers offloaded to gpu
+    #
+    #   MODELS:
+    #       deepseek-coder-v2:16b
+    #           context_limit: 24576
+    #           predict_limit: 8192
+    #           gpu_layers: 20 (optional)
+    #
     @staticmethod
-    def generateExplanationsWithMetrics(df, ref_df, model='deepseek-llm:7b', mode='default'):
+    def generateExplanationsWithMetrics(
+        df,
+        ref_df,
+        model='deepseek-llm:7b',
+        mode='default',
+        context_limit=None,
+        predict_limit=None,
+        gpu_layers=None
+    ):
         generated_explanations = {}
         methods = df['File'].unique().tolist()
-        for method in methods:
+        for method in tqdm.tqdm(methods):
             method_explanations = df[(df['File'] == method)]['Explanation'].to_list()
             prompt = InferenceHelper.generatePrompt(method_explanations, method, mode, df, ref_df)
-            inference = InferenceHelper.runInference(prompt, model)
+            inference = InferenceHelper.runInference(prompt, model, context_limit, predict_limit, gpu_layers)
             try:
                 generated_explanations[method] = json.loads(inference)['explanation']
-            except:
+            except Exception:
                 generated_explanations[method] = inference
 
-        generated_explanations_df = pd.DataFrame.from_dict(generated_explanations, orient='index', columns=['explanation'])
-        generated_explanations_df = generated_explanations_df.join(ref_df.set_index('bug')['description_c']).join(ref_df.set_index('bug')['description_d'])
+        generated_explanations_df = pd.DataFrame.from_dict(
+            generated_explanations,
+            orient='index',
+            columns=['explanation'])
+        generated_explanations_df = (
+            generated_explanations_df
+            .join(ref_df.set_index('bug')['description_c'])
+            .join(ref_df.set_index('bug')['description_d'])
+        )
 
+        suffix = '_' + '_'.join([mode, model.replace(':', '-')]) + '.csv'
         metric_df = InferenceHelper.calculate_metrics(generated_explanations_df)
-        metric_df.to_csv('output/' + datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S") +'_' + mode + '.csv')
+        metric_df.to_csv('output/' + datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S") + suffix)
         return metric_df
-
-
 
     @staticmethod
     def calculate_metrics(df):
@@ -151,10 +214,18 @@ class InferenceHelper:
         df['readablity'] = df.apply(lambda row: MetricHelper.calculateReadability(row.explanation), axis=1)
         df['readablity_c'] = df.apply(lambda row: MetricHelper.calculateReadability(row.description_c), axis=1)
         df['readablity_d'] = df.apply(lambda row: MetricHelper.calculateReadability(row.description_d), axis=1)
-        df['cosine_c'] = df.apply(lambda row: MetricHelper.calculateCosineSimilarity([row.explanation, row.description_c]), axis=1)
-        df['cosine_d'] = df.apply(lambda row: MetricHelper.calculateCosineSimilarity([row.explanation, row.description_d]), axis=1)
-        df['rouge_c'] = df.apply(lambda row: MetricHelper.calculate_rouge_score(row.description_c, row.explanation), axis=1)
-        df['rouge_d'] = df.apply(lambda row: MetricHelper.calculate_rouge_score(row.description_d, row.explanation), axis=1)
+        df['cosine_c'] = df.apply(
+            lambda row: MetricHelper.calculateCosineSimilarity([row.explanation, row.description_c]),
+            axis=1)
+        df['cosine_d'] = df.apply(
+            lambda row: MetricHelper.calculateCosineSimilarity([row.explanation, row.description_d]),
+            axis=1)
+        df['rouge_c'] = df.apply(
+            lambda row: MetricHelper.calculate_rouge_score(row.description_c, row.explanation),
+            axis=1)
+        df['rouge_d'] = df.apply(
+            lambda row: MetricHelper.calculate_rouge_score(row.description_d, row.explanation),
+            axis=1)
         df['bleurt_c'] = MetricHelper.calculateBleurtScore(explanations_c, explanations)
         df['bleurt_d'] = MetricHelper.calculateBleurtScore(explanations_d, explanations)
         return df
@@ -163,22 +234,36 @@ class InferenceHelper:
 class PromptHelper:
     prompt_input_default = "### Input:\n\nHere are the failure explanations:\n\n"
 
-    prompt_output_default = "### Output:\nFormat your response in valid JSON format with a single field 'explanation' of type string containing your generated explanation."
+    prompt_output_default = "### Output:\nFormat your response in valid JSON format with a single field 'explanation'" \
+        " of type string containing your generated explanation."
 
-    prompt_task_professional = "###Task:\nYou are a professional software developer. You are given a number of explanations describing the root cause of a software failure. Based on the given explanations, write a single explanation that contains all the information required to understand the root cause of the bug. The explanation should be succinct and without redundant information"
+    prompt_task_professional = "###Task:\nYou are a professional software developer. You are given a number of " \
+        "explanations describing the root cause of a software failure. Based on the given explanations, write a " \
+        "single explanation that contains all the information required to understand the root cause of the bug. " \
+        "The explanation should be succinct and without redundant information\n\n"
 
-    prompt_task_source = "###Task:\nYou are a professional software developer. You are given a number of explanations describing the root cause of a software failure. As additional context you are given the source code of the file where the error occurs. Based on the given explanations and the source code, write a single explanation that contains all the information required to understand the root cause of the bug. The explanation should be succinct and without redundant information"
+    prompt_task_source = "###Task:\nYou are a professional software developer. You are given a number of " \
+        "explanations describing the root cause of a software failure. As additional context you are given " \
+        "the source code of the file where the error occurs. Based on the given explanations and the source " \
+        "code, write a single explanation that contains all the information required to understand the root " \
+        "cause of the bug. The explanation should be succinct and without redundant information\n\n"
 
-    prompt_context_source = "\n\n###Context:\nHere is the source code for context:\n\n"
+    prompt_context_source = "###Context:\nHere is the source code for context:\n\n"
 
-    prompt_task_test = "###Task:\nYou are a professional software developer. You are given a number of explanations describing the root cause of a software failure that occured when running a unit test. As additional context you are given the unit test and the resulting error message. Based on the given explanations, the test and error, write a single explanation that contains all the information required to understand the root cause of the test error. The explanation should be succinct and without redundant information"
+    prompt_task_test = "###Task:\nYou are a professional software developer. You are given a number of " \
+        "explanations describing the root cause of a software failure that occured when running a unit " \
+        "test. As additional context you are given the unit test and the resulting error message. Based " \
+        "on the given explanations, the test and error, write a single explanation that contains all the " \
+        "information required to understand the root cause of the test error. The explanation should be " \
+        "succinct and without redundant information\n\n"
 
-    prompt_context_test = "\n\n###Context:\nHere is the unit test, followed by the error message:\n\n"
+    prompt_context_test = "###Context:\nHere is the unit test, followed by the error message:\n\n"
 
-    prompt_task_oneshot_in = "\n\n###Example:\nHere is an example of input explanations and two possible output explanations\n\nInput:\n\n"
+    prompt_task_oneshot_in = "###Example:\nHere is an example of input explanations and two possible " \
+        "output explanations\n\nInput:\n\n"
 
     prompt_task_oneshot_out_one = "Output Example 1:\n\n"
-    
+
     prompt_task_oneshot_out_two = "Output Example 2:\n\n"
 
     @staticmethod
@@ -198,7 +283,10 @@ class PromptHelper:
     def get_examples(method, df, ref_df):
         if method == 'HIT01_8':
             method = 'HIT02_24'
-        expl = '\n\n' + '\n\n'.join(["'''\n" + expl + "\n'''" for expl in df[(df['File'] == method)]['Explanation'].to_list()]) + '\n\n'
+        expl = (
+            '\n\n'
+            + '\n\n'.join(["'''\n" + expl + "\n'''" for expl in df[(df['File'] == method)]['Explanation'].to_list()])
+            + '\n\n')
         c = '```\n' + ref_df[(ref_df['bug'] == method)]['description_c'].to_string() + '```\n\n'
         d = '```\n' + ref_df[(ref_df['bug'] == method)]['description_d'].to_string() + '```\n\n'
         return expl, c, d
